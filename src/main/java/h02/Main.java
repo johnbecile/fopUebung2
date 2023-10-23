@@ -42,7 +42,10 @@ public class Main {
      * @param coins An array detailing how many coins to place in what position
      */
     public static void placeCoinsInWorld(int[][] coins) {
-        // TODO: H2
-        crash("H2 - remove if implemented");
+        for (int j = 0; j < World.getHeight(); j++) {
+            for (int i = 0; i < World.getWidth(); i++) {
+                World.putCoins(i, j, coins[j][i]);
+            }
+        }
     }
 }
