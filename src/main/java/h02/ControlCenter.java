@@ -88,13 +88,13 @@ public class ControlCenter {
         if (isScanRobotArray(robots)) {
             for (Robot robot : robots) {
                 if (robot.isTurnedOff()) {
-                    robot = new ScanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins())
+                    robot = new ScanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
                 }
             }
         } else {
             for (Robot robot : robots) {
                 if (robot.isTurnedOff()) {
-                    robot = new CleanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins())
+                    robot = new CleanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
                 }
             }
         }
