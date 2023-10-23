@@ -1,6 +1,9 @@
 package h02;
 
+import fopbot.Direction;
 import fopbot.Robot;
+import fopbot.World;
+
 import static org.tudalgo.algoutils.student.Student.crash;
 
 /**
@@ -14,8 +17,12 @@ public class ControlCenter {
      * @return An array containing the newly initialised robots
      */
     public ScanRobot[] initScanRobots() {
-        // TODO: H1.1
-        return crash("H1.1 - remove if implemented");
+        // assuming the width of the world not less than 1
+        ScanRobot[] scanArray = new ScanRobot[World.getWidth() - 1];
+        for (int i = 0; i < scanArray.length; i++) {
+            scanArray[i] = new ScanRobot(i + 1, 0, Direction.UP, 0);
+        }
+        return scanArray;
     }
 
     /**
@@ -24,8 +31,12 @@ public class ControlCenter {
      * @return An array containing the newly initialised robots
      */
     public CleanRobot[] initCleaningRobots() {
-        // TODO: H1.2
-        return crash("H1.2 - remove if implemented");
+        // assuming the height of the world not less than 1
+        CleanRobot[] cleanArray = new CleanRobot[World.getHeight() - 1];
+        for (int i = 0; i < cleanArray.length; i++) {
+            cleanArray[i] = new CleanRobot(0, i + 1, Direction.RIGHT, 0);
+        }
+        return cleanArray;
     }
 
     /**
