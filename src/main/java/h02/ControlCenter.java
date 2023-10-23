@@ -45,8 +45,12 @@ public class ControlCenter {
      * @param robots The array to invert
      */
     public void reverseRobots(Robot[] robots) {
-        // TODO: H3.1
-        crash("H3.1 - remove if implemented");
+        for (int i = 0; i < robots.length / 2; i++) {
+            Robot temp;
+            temp = robots[i];
+            robots[i] = robots[robots.length - 1 - i];
+            robots[robots.length - 1 - i] = temp;
+        }
     }
 
     /**
@@ -55,8 +59,11 @@ public class ControlCenter {
      * @param robots The array of {@linkplain Robot robots} to rotate
      */
     public void rotateRobots(Robot[] robots) {
-        // TODO: H3.2
-        crash("H3.2 - remove if implemented");
+        for (Robot robot : robots) {
+            robot.turnLeft();
+            robot.turnLeft();
+            checkForDamage(robot);
+        }
     }
 
     /**
@@ -78,8 +85,19 @@ public class ControlCenter {
      * @param robots An array possibly containing {@linkplain Robot robots} that are turned off and need to be replaced
      */
     public void replaceBrokenRobots(Robot[] robots) {
-        // TODO: H3.3
-        crash("H3.3 - remove if implemented");
+        if (isScanRobotArray(robots)) {
+            for (Robot robot : robots) {
+                if (robot.isTurnedOff()) {
+                    robot = new ScanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins())
+                }
+            }
+        } else {
+            for (Robot robot : robots) {
+                if (robot.isTurnedOff()) {
+                    robot = new CleanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins())
+                }
+            }
+        }
     }
 
     /**
@@ -98,8 +116,9 @@ public class ControlCenter {
      * @param robots The array to perform the aforementioned actions on
      */
     public void spinRobots(Robot[] robots) {
-        // TODO: H3.4
-        crash("H3.4 - remove if implemented");
+        reverseRobots(robots);
+        rotateRobots(robots);
+        replaceBrokenRobots(robots);
     }
 
     /**
