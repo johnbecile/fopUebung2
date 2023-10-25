@@ -44,7 +44,9 @@ public class Main {
     public static void placeCoinsInWorld(int[][] coins) {
         for (int j = 0; j < World.getHeight(); j++) {
             for (int i = 0; i < World.getWidth(); i++) {
-                World.putCoins(i, j, coins[j][i]);
+                if (coins[j][i] > 0) {
+                    World.putCoins(i, j, coins[j][i]);
+                }
             }
         }
     }

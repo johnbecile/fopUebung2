@@ -86,15 +86,17 @@ public class ControlCenter {
      */
     public void replaceBrokenRobots(Robot[] robots) {
         if (isScanRobotArray(robots)) {
-            for (Robot robot : robots) {
-                if (robot.isTurnedOff()) {
-                    robot = new ScanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
+            for (int i = 0; i < robots.length; i++) {
+                if (robots[i].isTurnedOff()){
+                    ScanRobot temp = new ScanRobot(robots[i].getX(), robots[i].getY(), robots[i].getDirection(), robots[i].getNumberOfCoins());
+                    robots[i] = temp;
                 }
             }
         } else {
-            for (Robot robot : robots) {
-                if (robot.isTurnedOff()) {
-                    robot = new CleanRobot(robot.getX(), robot.getY(), robot.getDirection(), robot.getNumberOfCoins());
+            for (int i = 0; i < robots.length; i++) {
+                if (robots[i].isTurnedOff()){
+                    CleanRobot temp = new CleanRobot(robots[i].getX(), robots[i].getY(), robots[i].getDirection(), robots[i].getNumberOfCoins());
+                    robots[i] = temp;
                 }
             }
         }
@@ -127,8 +129,11 @@ public class ControlCenter {
      * @param robots The robots to move
      */
     public void returnRobots(Robot[] robots) {
-        // TODO: H4.1
-        crash("H4.1 - remove if implemented");
+        for (int i = 0; i < robots.length; i++) {
+            while (robots[i].isFrontClear()){
+                robots[i].move();
+            }
+        }
     }
 
     /**
@@ -138,8 +143,30 @@ public class ControlCenter {
      * @return An array detailing which world fields contain at least one coin
      */
     public boolean[][] scanWorld(ScanRobot[] scanRobots) {
-        // TODO: H4.2
-        return crash("H4.2 - remove if implemented");
+        boolean[][] coinPositions = new boolean[World.getHeight()][World.getWidth()];
+        // initialize the array of boolean array
+        for (int j = 0; j < World.getHeight(); j++) {
+            for (int i = 0; i < World.getWidth(); i++) {
+                coinPositions[j][i] = false;
+            }
+        }
+        // until the last robot reaches the border, all robots move and scan the field
+        while (scanRobots[scanRobots.length - 1].isFrontClear()) {
+            for (int i = 0; i < scanRobots.length; i++) {
+                // move and scan the field
+                scanRobots[i].move();
+                int j = scanRobots[i].getY();
+                if (scanRobots[i].isOnACoin()) {
+                    // i-th scan robot is on x=i+1 position
+                    coinPositions[j][i + 1] = true;
+                }
+            }
+        }
+        // spin the robots, return to start positions, spin again
+        spinRobots(scanRobots);
+        returnRobots(scanRobots);
+        spinRobots(scanRobots);
+        return coinPositions;
     }
 
     /**
@@ -150,7 +177,23 @@ public class ControlCenter {
      */
     public void moveCleanRobots(CleanRobot[] cleanRobots, boolean[][] positionsOfCoins) {
         // TODO: H4.3
-        crash("H4.3 - remove if implemented");
+        // crash("H4.3 - remove if implemented");
+        // until the last robot reaches the border, all robots move and pick a coin
+        while (cleanRobots[cleanRobots.length - 1].isFrontClear()) {
+            for (int j = 0; j < cleanRobots.length; j++) {
+                // move and pick a coin
+                cleanRobots[j].move();
+                int i = cleanRobots[j].getX();
+                // j-th clean robot is on y=j+1 position
+                if (positionsOfCoins[j + 1][i]) {
+                    cleanRobots[j].pickCoin();
+                }
+            }
+        }
+        // spin the robots, return to start positions, spin again
+        spinRobots(cleanRobots);
+        returnRobots(cleanRobots);
+        spinRobots(cleanRobots);
     }
 
     /**
