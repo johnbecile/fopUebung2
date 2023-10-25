@@ -88,15 +88,13 @@ public class ControlCenter {
         if (isScanRobotArray(robots)) {
             for (int i = 0; i < robots.length; i++) {
                 if (robots[i].isTurnedOff()){
-                    ScanRobot temp = new ScanRobot(robots[i].getX(), robots[i].getY(), robots[i].getDirection(), robots[i].getNumberOfCoins());
-                    robots[i] = temp;
+                    robots[i] = new ScanRobot(robots[i].getX(), robots[i].getY(), robots[i].getDirection(), robots[i].getNumberOfCoins());
                 }
             }
         } else {
             for (int i = 0; i < robots.length; i++) {
                 if (robots[i].isTurnedOff()){
-                    CleanRobot temp = new CleanRobot(robots[i].getX(), robots[i].getY(), robots[i].getDirection(), robots[i].getNumberOfCoins());
-                    robots[i] = temp;
+                    robots[i] = new CleanRobot(robots[i].getX(), robots[i].getY(), robots[i].getDirection(), robots[i].getNumberOfCoins());
                 }
             }
         }
@@ -129,9 +127,9 @@ public class ControlCenter {
      * @param robots The robots to move
      */
     public void returnRobots(Robot[] robots) {
-        for (int i = 0; i < robots.length; i++) {
-            while (robots[i].isFrontClear()){
-                robots[i].move();
+        for (Robot robot : robots) {
+            while (robot.isFrontClear()) {
+                robot.move();
             }
         }
     }
